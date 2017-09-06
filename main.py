@@ -22,12 +22,12 @@ def draw_lines(img,lines):
             radian = np.arctan(a)
             stopnie = math.degrees(radian)
             print(stopnie)
-            if stopnie <= -7:
+            if stopnie <= -7:   #to jest po to zeby nie wykrywalo horyzontu i linii poziomych
                 if zmniejsz >=2:
                     break
                 else:
                     zmniejsz = zmniejsz + 1
-                    cv2.line(img, (coords[0], coords[1]), (coords[2], coords[3]), [255,255,255], 3)
+                    cv2.line(img, (coords[0], coords[1]), (coords[2], coords[3]), [255,255,255], 3)#wyswietlanie lini
             elif stopnie >=7:
                 if wieksz >=2:
                     break
@@ -39,11 +39,11 @@ def draw_lines(img,lines):
 
 
 def process_img(original_image):
-    processed_img = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY)
-    processed_img = cv2.Canny(processed_img, threshold1=50, threshold2=100)
+    processed_img = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY) #zamiana kolorow na grey
+    processed_img = cv2.Canny(processed_img, threshold1=50, threshold2=100) #zamiana obrazu na takie kreski
     vertices = np.array([[117,407],[150,0],[650,0],[683,407],], np.int32) #dla widoku z gory
 
-    processed_img = cv2.GaussianBlur(processed_img,(5,5),0)
+    processed_img = cv2.GaussianBlur(processed_img,(5,5),0) #dodanie blura zeby poprawic wykrywanie linii
     processed_img = roi(processed_img, [vertices])
    
     lines = cv2.HoughLinesP(processed_img, 1, np.pi/180, 180, 1,  150) #min_dlugosc, max_przerwa
@@ -51,7 +51,7 @@ def process_img(original_image):
     return processed_img
 
 
-def roi(img, vertices):
+def roi(img, vertices): #ograniczanie pola obrazu
     #blank mask:
     mask = np.zeros_like(img)
     # fill the mask
