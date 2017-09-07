@@ -20,6 +20,9 @@ def prosto():
     ReleaseKey(D)
     #pyautogui.moveTo(x,y)
     #ctypes.windll.user32.mouse_event(0, x, y, 0,0)
+    global i_l
+    global i_p
+    i_l=i_p=0
     print("Prosto")
 
 def lewo():
@@ -31,6 +34,8 @@ def lewo():
     #x = x+1
     #ctypes.windll.user32.mouse_event(0, x, y, 0,0)
     #print(x)
+    global i_l
+    i_l = i_l + 1
     print("lewo")
 
 def prawo():
@@ -41,6 +46,8 @@ def prawo():
     #x = x_st
     #x = x-1
     #ctypes.windll.user32.mouse_event(0, x, y, 0,0)
+    global i_p
+    i_p = i_p + 1
     print("prawo")
     
 def stop():
@@ -87,7 +94,7 @@ def process_img(original_image):
     processed_img = cv2.GaussianBlur(processed_img,(5,5),0) #dodanie blura zeby poprawic wykrywanie linii
     processed_img = roi(processed_img, [vertices])
    
-    lines = cv2.HoughLinesP(processed_img, 1, np.pi/180, 180, 10,  150) #min_dlugosc, max_przerwa
+    lines = cv2.HoughLinesP(processed_img, 1, np.pi/180, 15, 10,  150) #min_dlugosc, max_przerwa
     draw_lines(processed_img,lines)
     return processed_img
 
@@ -110,6 +117,8 @@ def cursorPos():
     return (point.x, point.y)
 
 def main():
+    global i_l
+    global i_p
     last_time = time.time()
     while(True):
         screen =  np.array(ImageGrab.grab(bbox=(0,40, 800, 640)))
@@ -118,15 +127,18 @@ def main():
         last_time = time.time()
         cv2.imshow('window', new_screen)
         #cv2.imshow('window2', cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
-        
         if wieksz and zmniejsz ==1:
-            prosto()
-        elif wieksz ==1:
+            for i in range(5):#zeby zignorowac lekkie skrety na prostej drodze 
+                prosto()
+               
+        elif wieksz ==1 and i_l <=5:
             lewo()
-        elif zmniejsz ==1:
+        elif zmniejsz ==1 and i_p<=5:
             prawo()
+           
         else:
-            prosto()
+             for i in range(3):#zeby zignorowac lekkie skrety na prostej drodze 
+                prosto()
         
         if cv2.waitKey(25) & 0xFF == ord('q'):
             cv2.destroyAllWindows()
@@ -134,10 +146,11 @@ def main():
         
 print("start za 5 sek")
 
-for i in range (0,5):
+for i in range (0,1):
     time.sleep(1)
 #x,y = 0,0
-
+i_l=0
+i_p=0
 #x_st, y_st = x,y 
 #ctypes.windll.user32.SetCursorPos(x, y)
 #pyautogui.dragTo(400,400)
