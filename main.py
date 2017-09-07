@@ -12,8 +12,30 @@ import math
 from directkeys import ReleaseKey, PressKey, W, A, S, D 
 
 
+def prosto():
+    ReleaseKey(A)
+    ReleaseKey(D)
+    print("Prosto")
+
+def lewo():
+    PressKey(A)
+    ReleaseKey(D)
+    print("lewo")
+
+def prawo():
+    PressKey(D)
+    ReleaseKey(A)
+    print("prawo")
+    
+def stop():
+    ReleaseKey(A)
+    ReleaseKey(D)
+    PressKey(S)
+
 def draw_lines(img,lines):
-    zmniejsz = 0 #zeby wyswietlac tylko 2 linie z dodatniego lub ujemnego nachylenia
+    global zmniejsz #zeby wyswietlac tylko 2 linie z dodatniego lub ujemnego nachylenia
+    global wieksz 
+    zmniejsz = 0
     wieksz = 0
     try:
         for line in lines:
@@ -21,15 +43,15 @@ def draw_lines(img,lines):
             a = (coords[3]-coords[1])/(coords[2]-coords[0])
             radian = np.arctan(a)
             stopnie = math.degrees(radian)
-            print(stopnie)
+           # print(stopnie)
             if stopnie <= -7:   #to jest po to zeby nie wykrywalo horyzontu i linii poziomych
-                if zmniejsz >=2:
+                if zmniejsz >=1:
                     break
                 else:
                     zmniejsz = zmniejsz + 1
                     cv2.line(img, (coords[0], coords[1]), (coords[2], coords[3]), [255,255,255], 3)#wyswietlanie lini
             elif stopnie >=7:
-                if wieksz >=2:
+                if wieksz >=1:
                     break
                 else:
                     wieksz = wieksz + 1
@@ -41,12 +63,14 @@ def draw_lines(img,lines):
 def process_img(original_image):
     processed_img = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY) #zamiana kolorow na grey
     processed_img = cv2.Canny(processed_img, threshold1=50, threshold2=100) #zamiana obrazu na takie kreski
-    vertices = np.array([[117,407],[150,0],[650,0],[683,407],], np.int32) #dla widoku z gory
+    #vertices = np.array([[117,407],[150,0],[650,0],[683,407],], np.int32) #dla widoku z gory
+    vertices = np.array([[0,640],[0,540],[160,310],[640,310],[800,540],[800,640]], np.int32) #dla widoku z maski
+    
 
     processed_img = cv2.GaussianBlur(processed_img,(5,5),0) #dodanie blura zeby poprawic wykrywanie linii
     processed_img = roi(processed_img, [vertices])
    
-    lines = cv2.HoughLinesP(processed_img, 1, np.pi/180, 180, 1,  150) #min_dlugosc, max_przerwa
+    lines = cv2.HoughLinesP(processed_img, 1, np.pi/180, 180, 10,  150) #min_dlugosc, max_przerwa
     draw_lines(processed_img,lines)
     return processed_img
 
@@ -70,6 +94,16 @@ def main():
         last_time = time.time()
         cv2.imshow('window', new_screen)
         #cv2.imshow('window2', cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
+        
+        if wieksz and zmniejsz ==1:
+            prosto()
+        elif wieksz ==1:
+            lewo()
+        elif zmniejsz ==1:
+            prawo()
+        else:
+            prosto()
+        
         if cv2.waitKey(25) & 0xFF == ord('q'):
             cv2.destroyAllWindows()
             break
