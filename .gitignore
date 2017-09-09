@@ -1,3 +1,8 @@
 training_data/training_data.npy
 kopia td/training_data.npy
 training_data.npy
+*.data-00000-of-00001
+pyets2-volvo-0.001-alexnet-8-epochs.model.index
+log/pyets2-volvo-0.001-alexnet-8-epochs.model/events.out.tfevents.1504960069.DESKTOP-3EGRJHN
+pyets2-volvo-0.001-alexnet-8-epochs.model.meta
+model_copy/pyets2-volvo-0.001-alexnet-8-epochs.model/events.out.tfevents.1504960069.DESKTOP-3EGRJHN
