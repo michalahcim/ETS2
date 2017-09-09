@@ -33,7 +33,7 @@ def keys_to_output(keys):
         output[1] = 1
     return output
 
-file_name = "training_data.npy"
+file_name = "training_data/training_data.npy"
 
 if os.path.isfile(file_name):
     print("File exists")
@@ -47,7 +47,7 @@ else:
 def main():
     print("start za 5 sek")
     time.sleep(5)
-    
+    print("start")
     #last_time = time.time()
     while(True):
         screen =  grab_screen(region = (0,40,800,640))
