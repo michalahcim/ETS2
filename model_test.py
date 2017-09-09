@@ -11,11 +11,11 @@ import time
 import ctypes
 import math
 from grabscreen import grab_screen
-import win32api
+#import win32api
 from uczenie_getkeys import key_check
 from alexnet import alexnet
 from directkeys import PressKey,ReleaseKey, W, A, S, D
-
+import random
 import os
 
 
@@ -35,16 +35,24 @@ def forward():
     ReleaseKey(S)
 
 def left():
-    ReleaseKey(W)
+   
+    PressKey(W)
     PressKey(A)
     ReleaseKey(S)
+   
     ReleaseKey(D)
+    time.sleep(0.05)
+    ReleaseKey(A)
 
 def right():
-    ReleaseKey(W)
+    PressKey(W)   
     PressKey(D)
+    
     ReleaseKey(A)
     ReleaseKey(S)
+    time.sleep(0.05)
+    ReleaseKey(D)
+    
 
 
 model = alexnet(width, height, LR)
@@ -65,7 +73,7 @@ def main():
             
             prediction = model.predict([screen.reshape(width,height,1)])[0]
             moves = list(np.around(prediction))
-            print(moves)
+            print(moves, prediction)
             #print('Loop took {} seconds'.format(time.time()-last_time))
             #last_time = time.time()
             if moves == [1,0,0]:
@@ -77,16 +85,17 @@ def main():
             
         keys = key_check()
         
-        if 'y' in keys:
+        if 'S' in keys:
             if paused:
                 paused = False
-                time.sleep(1)
+                time.sleep(5)
             else:
+                print("pause")
                 pause = True
                 ReleaseKey(W)
                 ReleaseKey(A)
                 ReleaseKey(D)
-                time.sleep(1)
+                time.sleep(10)
        
         
 
