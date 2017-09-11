@@ -7,7 +7,7 @@ width = 80
 height = 60
 
 LR = 1e-3
-EPOCHS = 8
+EPOCHS = 11
 
 MODEL_NAME = 'pyets2-volvo-{}-{}-{}-epochs.model'.format(LR, 'alexnet', EPOCHS)
 
