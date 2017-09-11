@@ -34,7 +34,7 @@ for data in train_data:
     else:
         print("no matches!!")
         
-forwards = forwards[:len(lefts)][:len(rights)]
+forwards = forwards[:len(lefts)+1500][:len(rights)+1500] #zeby bylo troche wiecej forward
 lefts = lefts[:len(forwards)]
 rights = rights[:len(forwards)]
 
@@ -44,7 +44,7 @@ shuffle(final_data)
 print(len(final_data))
 
 
-np.save('training_data_v2.npy', final_data)
+np.save('training_data_balanced.npy', final_data)
 # 
 # for data in train_data:
 #     img = data[0]
