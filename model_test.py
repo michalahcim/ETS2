@@ -25,7 +25,7 @@ height = 60
 LR = 1e-3
 EPOCHS = 8
 
-MODEL_NAME = 'pyets2-volvo-{}-{}-{}-epochs.model'.format(LR, 'alexnet', EPOCHS)
+MODEL_NAME = 'pyets2-volvo-{}-{}-{}-{}-epochs.model'.format(LR, 'alexnet', EPOCHS,"v2")
 
 
 def forward():
@@ -36,22 +36,22 @@ def forward():
 
 def left():
    
-    PressKey(W)
+    #PressKey(W)
     PressKey(A)
     ReleaseKey(S)
    
     ReleaseKey(D)
-    time.sleep(0.05)
-    ReleaseKey(A)
+    #time.sleep(0.05)
+    ReleaseKey(W)
 
 def right():
-    PressKey(W)   
+    #PressKey(W)   
     PressKey(D)
-    
+    ReleaseKey(W)
     ReleaseKey(A)
     ReleaseKey(S)
-    time.sleep(0.05)
-    ReleaseKey(D)
+   # time.sleep(0.05)
+    #ReleaseKey(D)
     
 
 

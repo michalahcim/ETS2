@@ -7,13 +7,13 @@ width = 80
 height = 60
 
 LR = 1e-3
-EPOCHS = 11
+EPOCHS = 8
 
-MODEL_NAME = 'pyets2-volvo-{}-{}-{}-epochs.model'.format(LR, 'alexnet', EPOCHS)
+MODEL_NAME = 'pyets2-volvo-{}-{}-{}-{}-epochs.model'.format(LR, 'alexnet', EPOCHS,"v2")
 
 model = alexnet(width, height, LR)
 
-train_data = np.load('training_data/training_data_balanced.npy')
+train_data = np.load('training_data/training_data_balanced_v2.npy')
 
 train = train_data[:-500]
 test = train_data[-500:]
